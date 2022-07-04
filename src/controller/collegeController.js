@@ -16,11 +16,7 @@ let createCollege = async function (req, res) {
         
     let bodyData = req.body
     let { name, fullName, logoLink } = bodyData
-trimall(name);
 
-trimall(fullName);
-
-    let checkname = await collegeModel.findOne({name:name})
     if (Object.keys(bodyData).length === 0) {
         return res.status(400).send({ status: false, msg: "please provide data" })
     }
@@ -30,9 +26,7 @@ if(!name){
 if(!/^([a-zA-z]){1,100}$/.test(name)){
     return res.status(400).send({ status: false, msg: "college name should not be a number or symbol" })
 }
-if(checkname){
-    return res.status(400).send({ status: false, msg: "college name is alredy exist please enter unique college name" }) 
-}
+
 if(!fullName){
     return res.status(400).send({ status: false, msg: "college fullName is missing" })
 }
@@ -41,6 +35,11 @@ if(!logoLink){
 }
 if(!validURL(logoLink)){
     return res.status(400).send({status:false, msg:"url not valid"})
+}
+
+let checkname = await collegeModel.findOne({name:name})
+if(checkname){
+    return res.status(400).send({ status: false, msg: "college name is alredy exist please enter unique college name" }) 
 }
 
 let collegecreate = await collegeModel.create(bodyData)
@@ -55,7 +54,7 @@ catch(error){
 
 const collegedetail = async function (req, res) {
 
-try{let data1 = req.query.name
+try{let data1 = req.query.collegeName
 if(!data1){
     return res.status(400).send({status:false,msg:"please provide college name"})
 }
