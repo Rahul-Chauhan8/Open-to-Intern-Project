@@ -12,6 +12,7 @@ function trimall(alltrim){
 
 
 let createCollege = async function (req, res) {
+    res.setHeader("Access-Control-Allow-Origin","*")
     try{
         
     let bodyData = req.body
@@ -53,7 +54,7 @@ catch(error){
 
 
 const collegedetail = async function (req, res) {
-
+    res.setHeader("Access-Control-Allow-Origin","*")
 try{let data1 = req.query.collegeName
 if(!data1){
     return res.status(400).send({status:false,msg:"please provide college name"})
